@@ -1,0 +1,26 @@
+# Cache
+__pycache__/
+__marimo__/
+
+# Data and output
+data/
+output/
+
+
+# Virtual environment
+venv/
+.env/
+
+# IDE
+.idea/
+.vscode/
+
+# Local configuration
+*.env
+*.local
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
