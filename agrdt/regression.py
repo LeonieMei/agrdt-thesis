@@ -10,7 +10,7 @@ from pandas.api.types import is_numeric_dtype
 from itertools import combinations
 
 
-from utils.dataUtils import (
+from agrdt.data import (
     dataFrameIndependent,
     dataFrameNoRecovered,
     dataFrameSymptoms,
@@ -19,7 +19,7 @@ from utils.dataUtils import (
     standardize,
 )
 
-from utils.dataParams import ROOT_DIR
+from agrdt.dataParams import ROOT_DIR
 
 SEED = 20
 

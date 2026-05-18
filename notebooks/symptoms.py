@@ -15,16 +15,16 @@ def _():
     import arviz as az
 
     from scipy.stats import skew
-    from utils.dataUtils import (dataFrameIndependentSymptomsSymptomsData, dataFramePCRpos, addJitterCol,
-                                 IQRQuartiles, dataFrameSymptomsData)
-    from utils.tableUtils import writeSummaryTablesSymptoms, writeSummaryTableSymptomSeverity
-    from utils.plotUtils import (setCustomTheme, plotSymptomHeatmap, annotateWithLetter,
-                                 returnPlotDirSymptoms, replaceLegend, saveFigure, boxNSwarmplot, setFontSize)
-    from utils.plotParams import (getAbbrvsDict, getPalettes, getLegends, getLabels,
+    from agrdt.data import (dataFrameIndependentSymptomsSymptomsData, dataFramePCRpos, addJitterCol,
+                            IQRQuartiles, dataFrameSymptomsData)
+    from agrdt.tables import writeSummaryTablesSymptoms, writeSummaryTableSymptomSeverity
+    from agrdt.plotting import (setCustomTheme, plotSymptomHeatmap, annotateWithLetter,
+                                returnPlotDirSymptoms, replaceLegend, saveFigure, boxNSwarmplot, setFontSize)
+    from agrdt.plotParams import (getAbbrvsDict, getPalettes, getLegends, getLabels,
                                   getOrders, COL_WIDTH, ANNOTATION_LETTER_SIZE)
-    from utils.dataParams import SYMPTOMS
-    from utils.regression import SEED
-    from utils.dataParams import ROOT_DIR
+    from agrdt.dataParams import SYMPTOMS
+    from agrdt.regression import SEED
+    from agrdt.dataParams import ROOT_DIR
 
     setCustomTheme()
     return (

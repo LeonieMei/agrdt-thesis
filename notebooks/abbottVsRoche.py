@@ -20,13 +20,15 @@ def _():
     from os import path
     from collections import defaultdict
 
-    from utils.dataUtils import standardize
-    from utils.plotUtils import (ridgeForestPlot, setFontSize, boldStr, spaghettiPlotCategorical, returnPlotDirRegression, 
-                                 setCustomTheme, saveFigure)
-    from utils.plotParams import getLabels, getPalettes, getLegends, COL_WIDTH, CM
-    from utils.regression import SEED, returnIDataDirRegression, postProcessAbbottRoche, postProcessAbbottRocheHierarchical
-    from utils.dataParams import ROOT_DIR
-    from utils.tableUtils import writeIDataSummaryTable, writeIDataSummaryTableLatex, returnTableDirIData
+    from agrdt.data import standardize
+    from agrdt.plotting import (ridgeForestPlot, setFontSize, boldStr,
+                                spaghettiPlotCategorical, returnPlotDirRegression,
+                                setCustomTheme, saveFigure)
+    from agrdt.plotParams import getLabels, getPalettes, getLegends, COL_WIDTH, CM
+    from agrdt.regression import SEED, returnIDataDirRegression, postProcessAbbottRoche, postProcessAbbottRocheHierarchical
+    from agrdt.dataParams import ROOT_DIR
+    from agrdt.tables import (writeIDataSummaryTable, writeIDataSummaryTableLatex,
+                              returnTableDirIData)
 
     setCustomTheme()
     return (

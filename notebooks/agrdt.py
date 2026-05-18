@@ -17,14 +17,14 @@ def _():
     # Bayesian MCMC analysis
     import arviz as az
 
-    from utils.dataUtils import (createDataFramesFigures, returnWtAlphaTransitionPCRs,
-                                 returnDeltaOmicronTransitionPCRs)
-    from utils.tableUtils import writeSummaryTablesEmployees, returnTableDirIData
-    from utils.plotUtils import replaceLegend, returnPlotDirRegression, setCustomTheme
-    from utils.plotParams import (getPalettes, getLabels, getLegends, getOrders,
+    from agrdt.data import (createDataFramesFigures, returnWtAlphaTransitionPCRs,
+                            returnDeltaOmicronTransitionPCRs)
+    from agrdt.tables import writeSummaryTablesEmployees, returnTableDirIData
+    from agrdt.plotting import replaceLegend, returnPlotDirRegression, setCustomTheme
+    from agrdt.plotParams import (getPalettes, getLabels, getLegends, getOrders,
                                   getAbbrvsDict, COL_WIDTH, CM)
-    from utils.regression import sampleAgrdtSpec, returnIDataDirRegression
-    from utils.dataParams import ROOT_DIR
+    from agrdt.regression import sampleAgrdtSpec, returnIDataDirRegression
+    from agrdt.dataParams import ROOT_DIR
 
     setCustomTheme()
     pd.set_option('display.max_columns', 30)

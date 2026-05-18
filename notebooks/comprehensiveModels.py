@@ -16,17 +16,18 @@ def _():
     import arviz as az
     import bambi as bmb
 
-    from utils.dataUtils import createDataFramesFigures, returnRtData, removeReleaseTesting, addSymptomsURT 
-    from utils.tableUtils import returnTableDirIData, writeIDataSummaryTable, writeIDataSummaryTableLatex
-    from utils.plotUtils import (annotateWithLetters, annotateWithLetter, ridgeForestPlot, setFontSize,
-                                 spaghettiPlotCategorical, returnPlotDirRegression, plotDataPointsRegression,
-                                 setCustomTheme, saveFigure)
-    from utils.plotParams import (getPalettes, getLabels, getLegends, getOrders, getAbbrvsDict, COL_WIDTH, DINA4_HEIGHT, CM, 
+    from agrdt.data import createDataFramesFigures, returnRtData, removeReleaseTesting, addSymptomsURT
+    from agrdt.tables import (returnTableDirIData, writeIDataSummaryTable,
+                              writeIDataSummaryTableLatex)
+    from agrdt.plotting import (annotateWithLetters, annotateWithLetter, ridgeForestPlot,
+                                setFontSize, spaghettiPlotCategorical, returnPlotDirRegression,
+                                plotDataPointsRegression, setCustomTheme, saveFigure)
+    from agrdt.plotParams import (getPalettes, getLabels, getLegends, getOrders, getAbbrvsDict, COL_WIDTH, DINA4_HEIGHT, CM,
                                   ANNOTATION_LETTER_SIZE, ANNOTATION_COORDS)
-    from utils.regression import (SEED, logisticRegressionVars, logisticRegressionDf, predictionsNewData, returnIDataDirRegression,
-                                  postProcessModel1, postProcessModel2, postProcessModel3, postProcessModel4, 
+    from agrdt.regression import (SEED, logisticRegressionVars, logisticRegressionDf, predictionsNewData, returnIDataDirRegression,
+                                  postProcessModel1, postProcessModel2, postProcessModel3, postProcessModel4,
                                   postProcessModel5, postProcessModel6)
-    from utils.dataParams import ROOT_DIR
+    from agrdt.dataParams import ROOT_DIR
 
     setCustomTheme()
     pd.set_option('display.max_columns', 30)

@@ -5,14 +5,14 @@ from datetime import date, datetime
 from scipy.spatial.distance import squareform, pdist
 from pathlib import Path
 
-from utils.plotParams import (
+from agrdt.plotParams import (
     DATE_RANGE_DOMINANT_WILDTYPE,
     DATE_RANGE_DOMINANT_ALPHA,
     DATE_RANGE_DOMINANT_DELTA,
     DATE_RANGE_DOMINANT_OMICRON,
     SYMPTOMS_DISPLAY_DICT,
 )
-from utils.dataParams import (
+from agrdt.dataParams import (
     ROOT_DIR,
     SYMPTOMS,
     SYMPTOM_DEGREES,

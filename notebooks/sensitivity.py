@@ -16,15 +16,15 @@ def _():
     # Bayesian MCMC analysis
     import arviz as az
 
-    from utils.dataUtils import createDataFramesFigures
-    from utils.tableUtils import roundHalfUp, mapRoundHalfUp
-    from utils.plotUtils import (annotateWithLetter, annotateWithLetters,
-                                 returnPlotDirSensitivity, plotFig1_A, plotFig3_B,
-                                 plotFigA2_B, setCustomTheme, saveFigure)
-    from utils.plotParams import (getPalettes, getLabels, getLegends, getOrders, getAbbrvsDict, COL_WIDTH, CM, 
+    from agrdt.data import createDataFramesFigures
+    from agrdt.tables import roundHalfUp, mapRoundHalfUp
+    from agrdt.plotting import (annotateWithLetter, annotateWithLetters,
+                                returnPlotDirSensitivity, plotFig1_A, plotFig3_B,
+                                plotFigA2_B, setCustomTheme, saveFigure)
+    from agrdt.plotParams import (getPalettes, getLabels, getLegends, getOrders, getAbbrvsDict, COL_WIDTH, CM,
                                   ANNOTATION_LETTER_SIZE, ANNOTATION_COORDS)
-    from utils.regression import returnIDataDirSensitivity
-    from utils.dataParams import ROOT_DIR
+    from agrdt.regression import returnIDataDirSensitivity
+    from agrdt.dataParams import ROOT_DIR
     setCustomTheme()
     return (
         ANNOTATION_COORDS,

@@ -21,16 +21,16 @@ def _():
     import arviz as az
     import bambi as bmb
 
-    from utils.dataUtils import (createDataFramesFigures, returnRtData, IQR,
-                                 IQRQuartiles)
-    from utils.tableUtils import roundHalfUp
-    from utils.plotUtils import (annotateWithLetter, annotateWithLetters, replaceLegend, setFontSize,
-                                 returnPlotDirViralLoad, plotFig1_B, plotFig2_B, plotFig3_A, plotFigA2_A,
-                                 setCustomTheme, saveFigure, plotFigVlResult, plotFigVlTestline)
-    from utils.plotParams import (getPalettes, getLabels, getLegends, getOrders, getAbbrvsDict, COL_WIDTH,
+    from agrdt.data import createDataFramesFigures, returnRtData, IQR, IQRQuartiles
+    from agrdt.tables import roundHalfUp
+    from agrdt.plotting import (annotateWithLetter, annotateWithLetters, replaceLegend,
+                                setFontSize, returnPlotDirViralLoad, plotFig1_B,
+                                plotFig2_B, plotFig3_A, plotFigA2_A, setCustomTheme,
+                                saveFigure, plotFigVlResult, plotFigVlTestline)
+    from agrdt.plotParams import (getPalettes, getLabels, getLegends, getOrders, getAbbrvsDict, COL_WIDTH,
                                   ANNOTATION_LETTER_SIZE, GGPLOT_PALETTE, ANNOTATION_COORDS)
-    from utils.regression import SEED, sampleVl, returnIDataDirViralLoad
-    from utils.dataParams import ROOT_DIR
+    from agrdt.regression import SEED, sampleVl, returnIDataDirViralLoad
+    from agrdt.dataParams import ROOT_DIR
 
     setCustomTheme()
     return (

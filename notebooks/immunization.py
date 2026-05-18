@@ -10,11 +10,12 @@ def _():
     import pandas as pd
     import matplotlib.pyplot as plt
 
-    from utils.dataUtils import createDataFramesFigures
-    from utils.plotUtils import annotateWithLetters, returnPlotDirImmunization, setCustomTheme, saveFigure
-    from utils.plotParams import getLabels, getLegends, getOrders, getAbbrvsDict, COL_WIDTH, CM, ANNOTATION_LETTER_SIZE
-    from utils.regression import returnIDataDirImmunization
-    from utils.dataParams import ROOT_DIR
+    from agrdt.data import createDataFramesFigures
+    from agrdt.plotting import (annotateWithLetters, returnPlotDirImmunization,
+                                setCustomTheme, saveFigure)
+    from agrdt.plotParams import getLabels, getLegends, getOrders, getAbbrvsDict, COL_WIDTH, CM, ANNOTATION_LETTER_SIZE
+    from agrdt.regression import returnIDataDirImmunization
+    from agrdt.dataParams import ROOT_DIR
 
     setCustomTheme()
     return (

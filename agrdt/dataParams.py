@@ -1,8 +1,8 @@
 from pathlib import Path
 from datetime import datetime
 
-import utils
-ROOT_DIR = Path(utils.__file__).resolve().parent.parent
+import agrdt
+ROOT_DIR = Path(agrdt.__file__).resolve().parent.parent
 
 # The date the Roche rapid test started being used (as opposed to the Abbott
 # test).

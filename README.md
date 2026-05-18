@@ -121,8 +121,12 @@ Source: https://github.com/robert-koch-institut/SARS-CoV-2-Nowcasting_und_-R-Sch
 
 
 ## Code
+
+### Directory `agrdt`
+
+Functions for data manipulation (`data.py`), plotting (`plotting.py`), statistical analyses (`regression.py`) and table generation (`tables.py`); and files containing data manipulation parameters and plotting parameter specifications (`dataParams.py`, `plotParams.py`).
  
-### Notebooks
+### Directory `notebooks`
 
 #### Analyses on Charité cohort data
 * `agrdt.py`: Counts, simple statistics, Ag-RDT specificity computation.
@@ -140,10 +144,6 @@ Source: https://github.com/robert-koch-institut/SARS-CoV-2-Nowcasting_und_-R-Sch
 * `rapidTestVariantExperiments.py`: Analysis of Ag-RDT performance on cell culture supernatants of cells infected with different viral variants.
 * `RNA-N-ratios.py`: Analyses on temporal changes in the ratio of N-antigen to viral RNA throughout infection.
  
-### Utilities
-
-Utility functions for data manipulation (`dataUtils.py`), plotting (`plotUtils.py`), 
-statistical analyses (`regression.py`) and table generation (`tableUtils.py`); and files containing data manipulation parameters and plotting parameter specifications (`dataParams.py`, `plotParams.py`).
 
 
 ## License

@@ -15,11 +15,13 @@ def _():
     import matplotlib.pyplot as plt
     from collections import defaultdict
 
-    from utils.plotUtils import setCustomTheme, saveFigure, ridgeForestPlot, spaghettiPlotCategorical, returnPlotDirRegression, DPI
-    from utils.plotParams import CM, COL_WIDTH
-    from utils.regression import predictionsNewData, SEED
-    from utils.dataParams import ROOT_DIR
-    from utils.tableUtils import writeIDataSummaryTable, writeIDataSummaryTableLatex, returnTableDirIData
+    from agrdt.plotting import (setCustomTheme, saveFigure, ridgeForestPlot,
+                                spaghettiPlotCategorical, returnPlotDirRegression, DPI)
+    from agrdt.plotParams import CM, COL_WIDTH
+    from agrdt.regression import predictionsNewData, SEED
+    from agrdt.dataParams import ROOT_DIR
+    from agrdt.tables import (writeIDataSummaryTable, writeIDataSummaryTableLatex,
+                              returnTableDirIData)
     return (
         CM,
         COL_WIDTH,

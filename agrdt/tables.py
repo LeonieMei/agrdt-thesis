@@ -2,9 +2,9 @@ import decimal
 import re
 from collections import defaultdict
 
-from utils.dataParams import ROOT_DIR, SYMPTOMS_DISPLAY_DICT
-from utils.dataUtils import dataFramePCRpos, IQRQuartiles
-from utils.plotParams import (
+from agrdt.dataParams import ROOT_DIR, SYMPTOMS_DISPLAY_DICT
+from agrdt.data import dataFramePCRpos, IQRQuartiles
+from agrdt.plotParams import (
     getAbbrvsDict,
     getLabels,
     getLabelsLatex,

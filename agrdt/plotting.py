@@ -17,7 +17,7 @@ from datetime import datetime, date
 from pathlib import Path
 from itertools import chain
 
-from utils.plotParams import (
+from agrdt.plotParams import (
     DPI,
     TEXT_SIZE,
     TITLE_SIZE,
@@ -40,10 +40,10 @@ from utils.plotParams import (
     _ABBRVS,
     PARAM_NAME_MAPPINGS,
 )
-from utils.regression import calcErrors, sampleProb, SEED
-from utils.dataUtils import addJitterCol, symptomColNames, makeSimilarityDf
-from utils.tableUtils import roundHalfUp
-from utils.dataParams import ROOT_DIR
+from agrdt.regression import calcErrors, sampleProb, SEED
+from agrdt.data import addJitterCol, symptomColNames, makeSimilarityDf
+from agrdt.tables import roundHalfUp
+from agrdt.dataParams import ROOT_DIR
 
 PLOT_DIR_THESIS = ROOT_DIR / "output" / "figures"
 PLOT_DIR_SYMPTOMS = PLOT_DIR_THESIS / "symptoms"

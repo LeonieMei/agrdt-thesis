@@ -18,11 +18,13 @@ def _():
 
     from collections import defaultdict
     from pathlib import Path
-    from utils.dataParams import ROOT_DIR
-    from utils.plotUtils import setCustomTheme, saveFigure, returnPlotDirNRNA, setFontSize, annotateWithLetters, spaghettiPlotCategorical
-    from utils.plotParams import getLabels, getLegends, COL_WIDTH, CM, ANNOTATION_LETTER_SIZE
-    from utils.regression import predictionsNewData, returnIDataDirNprotein, SEED
-    from utils.tableUtils import writeIDataSummaryTableLatex, returnTableDirIData
+    from agrdt.dataParams import ROOT_DIR
+    from agrdt.plotting import (setCustomTheme, saveFigure, returnPlotDirNRNA,
+                                setFontSize, annotateWithLetters,
+                                spaghettiPlotCategorical)
+    from agrdt.plotParams import getLabels, getLegends, COL_WIDTH, CM, ANNOTATION_LETTER_SIZE
+    from agrdt.regression import predictionsNewData, returnIDataDirNprotein, SEED
+    from agrdt.tables import writeIDataSummaryTableLatex, returnTableDirIData
 
     setCustomTheme()
     # I had problems with C code compilation when trying to run bambi models (after updating to a newer macOS version (Tahoe))
