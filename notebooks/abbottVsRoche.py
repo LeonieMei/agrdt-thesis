@@ -105,9 +105,10 @@ def _(label, sns):
 def _(CM, COL_WIDTH):
     cm = CM
     colWidth = COL_WIDTH
+    colWidthAppendix = COL_WIDTH
     fontSizePlot = 12
     fontSizePlotSuppl = 10
-    return colWidth, fontSizePlot, fontSizePlotSuppl
+    return colWidth, colWidthAppendix, fontSizePlot, fontSizePlotSuppl
 
 
 @app.cell
@@ -313,8 +314,8 @@ def _(az, iData):
 @app.cell
 def _(colWidth, iData, label, plotDir, plt, ridgeForestPlot, saveFigure):
     var_names = ["variant", "roche_abbott_variant", "zVl_variant_test"]
-    yTickLabels = ("Omicron - pre-VOC", "Roche - Abbott | pre-VOC", "Roche - Abbott | Omicron",
-                   f"{label.vl} | pre-VOC, Abbott", f"{label.vl} | pre-VOC, Roche", f"{label.vl} | Omicron, Abbott", 
+    yTickLabels = ("Omicron", "Roche | Pre-VOC", "Roche | Omicron",
+                   f"{label.vl} | Pre-VOC, Abbott", f"{label.vl} | Pre-VOC, Roche", f"{label.vl} | Omicron, Abbott", 
                    f"{label.vl} | Omicron, Roche")
     _fig, _ax = plt.subplots(1, 1, figsize=(colWidth * 2, colWidth * 1))
     _ax = ridgeForestPlot(iData, varNames=tuple(var_names), yTickLabels=yTickLabels, addGrid=True, ridge=False, ax=_ax)

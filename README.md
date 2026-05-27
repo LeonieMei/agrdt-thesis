@@ -129,7 +129,7 @@ Functions for data manipulation (`data.py`), plotting (`plotting.py`), statistic
 ### Directory `notebooks`
 
 #### Analyses on Charité cohort data
-* `agrdt.py`: Counts, simple statistics, Ag-RDT specificity computation.
+* `agrdtStats.py`: Counts, simple statistics, Ag-RDT specificity computation.
 * `comprehensiveModels.py`: Comprehensive statistical analyses, estimating 
   associations between Ag-RDT sensitivity and multiple potential influencing factors.
 * `immunization.py`: Analysis on temporal changes in immunization throughout the study.
