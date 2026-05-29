@@ -32,7 +32,6 @@ def _():
         mo,
         pd,
         plt,
-        returnIDataDirImmunization,
         returnPlotDirImmunization,
         saveFigure,
     )
@@ -52,11 +51,11 @@ def _(mo):
 
 @app.cell
 def _(
+    getAbbrvsDict,
     getLabels,
     getLegends,
     getOrders,
     getPalettes,
-    returnIDataDirImmunization,
     returnPlotDirImmunization,
 ):
     pal = getPalettes()
@@ -64,29 +63,13 @@ def _(
     order = getOrders()
     label = getLabels()
     plotDir = returnPlotDirImmunization()
-    iDataDir = returnIDataDirImmunization()
-    return label, legend, order, pal, plotDir
-
-
-@app.cell
-def _(getAbbrvsDict):
     abbrvDictPaper = getAbbrvsDict()
-
-    genderAbbrvs = abbrvDictPaper["gender"]
-    symptomAbbrvs = abbrvDictPaper["symptoms"]
-    variantAbbrvs = abbrvDictPaper["variant"]
-    immunAbbrvs = abbrvDictPaper["immun2YN"]
-    daysAbbrvs = abbrvDictPaper["binDaysPostOnset"]
-    variants = list(variantAbbrvs.keys())
-    return (abbrvDictPaper,)
+    return abbrvDictPaper, label, legend, order, pal, plotDir
 
 
 @app.cell
-def _(CM, COL_WIDTH):
-    cm = CM
+def _(COL_WIDTH):
     colWidth = COL_WIDTH
-    fontSizePlot = 12
-    fontSizePlotSuppl = 10
     return (colWidth,)
 
 

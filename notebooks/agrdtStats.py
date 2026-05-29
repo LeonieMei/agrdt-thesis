@@ -30,8 +30,6 @@ def _():
     pd.set_option('display.max_columns', 30)
     pd.set_option('display.float_format', '{:.2f}'.format)
     return (
-        CM,
-        COL_WIDTH,
         ROOT_DIR,
         az,
         createDataFramesFigures,
@@ -48,9 +46,6 @@ def _():
         plt,
         replaceLegend,
         returnDeltaOmicronTransitionPCRs,
-        returnIDataDirRegression,
-        returnPlotDirRegression,
-        returnTableDirIData,
         returnWtAlphaTransitionPCRs,
         sampleAgrdtSpec,
         sns,
@@ -71,44 +66,13 @@ def _(mo):
 
 
 @app.cell
-def _(
-    getLabels,
-    getLegends,
-    getOrders,
-    getPalettes,
-    returnIDataDirRegression,
-    returnPlotDirRegression,
-    returnTableDirIData,
-):
+def _(getAbbrvsDict, getLabels, getLegends, getOrders, getPalettes):
     pal = getPalettes()
     legend = getLegends()
     order = getOrders()
     label = getLabels()
-    plotDir = returnPlotDirRegression()
-    iDataDir = returnIDataDirRegression()
-    tableDirIData = returnTableDirIData()
-    return label, legend, order, pal
-
-
-@app.cell
-def _(getAbbrvsDict):
     abbrvDictPaper = getAbbrvsDict()
-
-    genderAbbrvs = abbrvDictPaper["gender"]
-    symptomAbbrvs = abbrvDictPaper["symptoms"]
-    variantAbbrvs = abbrvDictPaper["variant"]
-    immunAbbrvs = abbrvDictPaper["immun2YN"]
-    daysAbbrvs = abbrvDictPaper["binDaysPostOnset"]
-    return (abbrvDictPaper,)
-
-
-@app.cell
-def _(CM, COL_WIDTH):
-    cm = CM
-    colWidth = COL_WIDTH
-    fontSizePlot = 12
-    fontSizePlotSuppl = 10
-    return
+    return abbrvDictPaper, label, legend, order, pal
 
 
 @app.cell(hide_code=True)

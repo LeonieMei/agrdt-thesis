@@ -51,7 +51,6 @@ def _():
     return (
         ANNOTATION_COORDS,
         ANNOTATION_LETTER_SIZE,
-        CM,
         COL_WIDTH,
         DINA4_HEIGHT,
         Path,
@@ -67,7 +66,6 @@ def _():
         getAbbrvsDict,
         getLabels,
         getLegends,
-        getOrders,
         getPalettes,
         logisticRegressionDf,
         logisticRegressionVars,
@@ -110,9 +108,9 @@ def _(mo):
 
 @app.cell
 def _(
+    getAbbrvsDict,
     getLabels,
     getLegends,
-    getOrders,
     getPalettes,
     returnIDataDirRegression,
     returnPlotDirRegression,
@@ -120,32 +118,18 @@ def _(
 ):
     pal = getPalettes()
     legend = getLegends()
-    order = getOrders()
     label = getLabels()
     plotDir = returnPlotDirRegression()
     iDataDir = returnIDataDirRegression()
     tableDirIData = returnTableDirIData()
+    abbrvDictPaper = getAbbrvsDict()
     return iDataDir, label, legend, pal, plotDir, tableDirIData
 
 
 @app.cell
-def _(getAbbrvsDict):
-    abbrvDictPaper = getAbbrvsDict()
-
-    genderAbbrvs = abbrvDictPaper["gender"]
-    symptomAbbrvs = abbrvDictPaper["symptoms"]
-    variantAbbrvs = abbrvDictPaper["variant"]
-    immunAbbrvs = abbrvDictPaper["immun2YN"]
-    daysAbbrvs = abbrvDictPaper["binDaysPostOnset"]
-    return
-
-
-@app.cell
-def _(CM, COL_WIDTH):
-    cm = CM
+def _(COL_WIDTH):
     colWidth = COL_WIDTH
     fontSizePlot = 12
-    fontSizePlotSuppl = 10
     return colWidth, fontSizePlot
 
 
@@ -160,9 +144,8 @@ def _(Path, ROOT_DIR, pd, returnRtData):
     # Load data
     target="T1"
     dataPath = Path(ROOT_DIR, "data", f"agrdtDataThesis{target}.tsv")
-    dataPath2 = Path(ROOT_DIR, "data", f"agrdtDataThesisT2.tsv")
+    dataPath2 = Path(ROOT_DIR, "data", "agrdtDataThesisT2.tsv")
     df = pd.read_csv(dataPath, sep="\t", low_memory=False, parse_dates=['pcrDate'])
-    df2 = pd.read_csv(dataPath2, sep="\t", low_memory=False, parse_dates=['pcrDate'])
     # Turn into datetime.date objects.
     df["pcrDate"] = df["pcrDate"].apply(lambda pcrDate: pcrDate.date())
     df["binDaysPostOnset4"] = pd.cut(df.daysPostOnset, bins=(0, 1, 7), include_lowest=True)
@@ -1241,8 +1224,8 @@ def _(bmb, dfPos, logisticRegressionDf, removeReleaseTesting):
     _indVars = ("vl", "age", "testline") if familyModel4=="cumulative" else ("vl", "age")
 
 
-    _formulaAllIndBernoulli = f'agrdt ~ testDevice + variant:symptoms + gender + symptoms + zVl + zAge'
-    _formulaAllIndCumulative = f'testline ~ testDevice + variant:symptoms + gender + symptoms + zVl + zAge'
+    _formulaAllIndBernoulli = "agrdt ~ testDevice + variant:symptoms + gender + symptoms + zVl + zAge"
+    _formulaAllIndCumulative = "testline ~ testDevice + variant:symptoms + gender + symptoms + zVl + zAge"
     _formulaAllInd = _formulaAllIndCumulative if familyModel4 == "cumulative" else _formulaAllIndBernoulli
 
     dfLogisticBmb4 = logisticRegressionDf(removeReleaseTesting(dfPos), indCatVars=_indCatVars,

@@ -702,7 +702,7 @@ def boxNStripOrSwarmplot(
     xticks = ax.xaxis.get_major_ticks()
     for xtick in xticks:
         # Hide the tick marks for non-count labels.
-        if not "=" in xtick._label or xtick == "none":
+        if "=" not in xtick._label or xtick == "none":
             xtick.tick1line.set_visible(False)
 
     if rotateCountLabels:
@@ -1920,7 +1920,7 @@ def plotFig3_B(
 ):
     model, iData = None, None
     varName = "immun2YN:symptoms"
-    if not varName in statsDictFigure3:
+    if varName not in statsDictFigure3:
         n = 2500
         newData = pd.DataFrame(
             {
@@ -2047,7 +2047,7 @@ def plotFigA2_B(
 ):
     varName = "variant:symptoms"
     model, iData = None, None
-    if not varName in statsDictFigure3:
+    if varName not in statsDictFigure3:
         n = 1250
         variantsNew = pd.Series(
             (("wildtype",) * n + ("alpha",) * n + ("delta",) * n + ("omicron",) * n) * 2

@@ -957,7 +957,7 @@ def _processImmunStatusSymptomsInteraction(iData, symptomsVar, newVarName=None):
         immun2YNAsymp = iData.posterior.sel({"immun2YN:symptoms_dim": "1, 0"})[
             "immun2YN:symptoms"
         ]
-        immun2YNSymp = iData.posterior.sel({f"immun2YN:symptoms_dim": "1, 1"})[
+        immun2YNSymp = iData.posterior.sel({"immun2YN:symptoms_dim": "1, 1"})[
             "immun2YN:symptoms"
         ]
 
@@ -1076,7 +1076,7 @@ def _processRecoveredSymptomsInteraction(iData, symptomsVar="symptoms"):
     recoveredAsymp = iData.posterior.sel({"recovered:symptoms_dim": "1, 0"})[
         "recovered:symptoms"
     ]
-    recoveredSymp = iData.posterior.sel({f"recovered:symptoms_dim": "1, 1"})[
+    recoveredSymp = iData.posterior.sel({"recovered:symptoms_dim": "1, 1"})[
         "recovered:symptoms"
     ]
 

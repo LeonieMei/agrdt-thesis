@@ -137,7 +137,7 @@ def _(ROOT_DIR, datetime, pd, returnRtData):
     cusmaMaxDate = datetime(2022, 2, 11)
     cusmaMinDate = datetime(2020, 12, 1)
     dataPath = ROOT_DIR / "data" / f"agrdtDataThesis{target}.tsv"
-    df = pd.read_csv(dataPath, sep="\t", low_memory=False, parse_dates=['pcrDate'])
+    df = pd.read_csv(dataPath, sep="\t", low_memory=False, parse_dates=["pcrDate"])
 
     # Turn into datetime.date objects.
     df["pcrDate"] = df["pcrDate"].apply(lambda pcrDate: pcrDate.date())
@@ -180,8 +180,6 @@ def _(createDataFramesFigures, df):
     return (
         dfAgrdtIndInf,
         dfAllFirstPosPcrsNoRelease,
-        dfFigure1,
-        dfFigure1Asymp,
         dfFigure1_B,
         dfFigure1_B_Asymp,
         dfFigure2_B,
@@ -193,12 +191,6 @@ def _(createDataFramesFigures, df):
 
 
 @app.cell
-def _(dfFigure1, dfFigure1Asymp, pd):
-    dfFigure1SympAsymp = pd.concat([dfFigure1, dfFigure1Asymp], ignore_index=True)
-    return
-
-
-@app.cell
 def _(mo):
     mo.md(r"""## Labels""")
     return
@@ -206,7 +198,7 @@ def _(mo):
 
 @app.cell
 def _(abbrvDictPaper, date, dfPos):
-    month2Labels = list(abbrvDictPaper['samplingMonth2'].values())
+    month2Labels = list(abbrvDictPaper["samplingMonth2"].values())
     months2 = dfPos[dfPos.pcrDate > date(2020, 11, 30)].samplingMonth2.sort_values().unique()
     month2ToMonths = {monthBin: label for monthBin, label in zip(months2, month2Labels)}
     return month2Labels, month2ToMonths, months2
@@ -214,8 +206,8 @@ def _(abbrvDictPaper, date, dfPos):
 
 @app.cell
 def _(dfFigure1_B, dfFigure1_B_Asymp, months2):
-    countsFigure1 = [f'n={(dfFigure1_B.samplingMonth2 == month2).sum()}' for month2 in months2]
-    countsFigure1Asymp = [f'n={(dfFigure1_B_Asymp.samplingMonth2 == month2).sum()}' for month2 in months2]
+    countsFigure1 = [f"n={(dfFigure1_B.samplingMonth2 == month2).sum()}" for month2 in months2]
+    countsFigure1Asymp = [f"n={(dfFigure1_B_Asymp.samplingMonth2 == month2).sum()}" for month2 in months2]
     return countsFigure1, countsFigure1Asymp
 
 
@@ -246,11 +238,11 @@ def _(
     plt,
     saveFigure,
 ):
-    _figB, _ax = plt.subplots(2, 1, figsize=(colWidth * 2, colWidth * 1.6), gridspec_kw={'height_ratios': [0.02, 1]})
-    plotFig1_B(dfFigure1_B, dfPos, timeVar='samplingMonth2', xOrder=month2ToMonths, palette=pal, label=label,
+    _figB, _ax = plt.subplots(2, 1, figsize=(colWidth * 2, colWidth * 1.6), gridspec_kw={"height_ratios": [0.02, 1]})
+    plotFig1_B(dfFigure1_B, dfPos, timeVar="samplingMonth2", xOrder=month2ToMonths, palette=pal, label=label,
                xLabels=month2Labels, abbrvDictPaper=abbrvDictPaper, ax=_ax)
-    saveFigure(_figB, plotDir / 'Figure1-B.png')
-    saveFigure(_figB, plotDir / 'Figure1-B.pdf')
+    saveFigure(_figB, plotDir / "Figure1-B.png")
+    saveFigure(_figB, plotDir / "Figure1-B.pdf")
     _ax
     return
 
@@ -281,63 +273,63 @@ def _(
     saveFigure,
 ):
     _figB_full, _ax = plt.subplots(3, 1, figsize=(colWidth * 2, colWidth * 2.3), 
-                              gridspec_kw={'height_ratios': [0.02, 1, 1]}, constrained_layout=True)
-    plotFig1_B(dfFigure1_B, dfPos, timeVar='samplingMonth2', xOrder=month2ToMonths, palette=pal, label=label, xLabels=None,
+                              gridspec_kw={"height_ratios": [0.02, 1, 1]}, constrained_layout=True)
+    plotFig1_B(dfFigure1_B, dfPos, timeVar="samplingMonth2", xOrder=month2ToMonths, palette=pal, label=label, xLabels=None,
                abbrvDictPaper=abbrvDictPaper, ax=_ax[:2])
-    plotFig1_B(dfFigure1_B_Asymp, dfPos, timeVar='samplingMonth2', xOrder=month2ToMonths, palette=pal, label=label,
+    plotFig1_B(dfFigure1_B_Asymp, dfPos, timeVar="samplingMonth2", xOrder=month2ToMonths, palette=pal, label=label,
                xLabels=month2Labels, abbrvDictPaper=abbrvDictPaper, ax=_ax[2], showVariantTimes=False)
     annotateWithLetters(_ax[1:], size=ANNOTATION_LETTER_SIZE, coords=ANNOTATION_COORDS)
-    saveFigure(_figB_full, plotDir / 'Figure1-vl-thesis.png')
-    saveFigure(_figB_full, plotDir / 'Figure1-vl-thesis.pdf')
+    saveFigure(_figB_full, plotDir / "Figure1-vl-thesis.png")
+    saveFigure(_figB_full, plotDir / "Figure1-vl-thesis.pdf")
     _ax
     return
 
 
 @app.cell
 def _(countsFigure1, month2ToMonths):
-    print(f'Number of tests (symptomatic)')
+    print("Number of tests (symptomatic)")
     for _timePeriod, _nTests in zip(month2ToMonths.values(), countsFigure1):
-        print(f'{_timePeriod}: {_nTests}')
+        print(f"{_timePeriod}: {_nTests}")
     return
 
 
 @app.cell
 def _(dfFigure1_B, month2ToMonths, roundHalfUp):
-    print('Viral load medians (symptomatic)\n')
-    for _idxMonth2, vlMedian in dfFigure1_B.groupby(by=['samplingMonth2']).vl.agg('median').items():
-        print(f'{month2ToMonths[_idxMonth2]}: {roundHalfUp(vlMedian)}')
+    print("Viral load medians (symptomatic)\n")
+    for _idxMonth2, vlMedian in dfFigure1_B.groupby(by=["samplingMonth2"]).vl.agg("median").items():
+        print(f"{month2ToMonths[_idxMonth2]}: {roundHalfUp(vlMedian)}")
     return
 
 
 @app.cell
 def _(IQRQuartiles, dfFigure1_B, month2ToMonths, roundHalfUp):
-    print('Viral load IQRs (Q1, Q3) (symptomatic)\n')
-    for _idxMonth2, (Q1, Q3) in dfFigure1_B.groupby(by=['samplingMonth2']).vl.agg(IQRQuartiles).items():
-        print(f'{month2ToMonths[_idxMonth2]}: {(roundHalfUp(Q1), roundHalfUp(Q3))}')
+    print("Viral load IQRs (Q1, Q3) (symptomatic)\n")
+    for _idxMonth2, (Q1, Q3) in dfFigure1_B.groupby(by=["samplingMonth2"]).vl.agg(IQRQuartiles).items():
+        print(f"{month2ToMonths[_idxMonth2]}: {(roundHalfUp(Q1), roundHalfUp(Q3))}")
     return
 
 
 @app.cell
 def _(countsFigure1Asymp, month2ToMonths):
-    print(f'Number of tests (asymptomatic)')
+    print("Number of tests (asymptomatic)")
     for _timePeriod, _nTests in zip(month2ToMonths.values(), countsFigure1Asymp):
-        print(f'{_timePeriod}: {_nTests}')
+        print(f"{_timePeriod}: {_nTests}")
     return
 
 
 @app.cell
 def _(dfFigure1_B_Asymp, month2ToMonths, roundHalfUp):
-    print('Viral load medians (asymptomatic)\n')
-    for _idxMonth2, vlMedianAsymp in dfFigure1_B_Asymp.groupby(by=['samplingMonth2']).vl.agg('median').items():
-        print(f'{month2ToMonths[_idxMonth2]}: {roundHalfUp(vlMedianAsymp)}')
+    print("Viral load medians (asymptomatic)\n")
+    for _idxMonth2, vlMedianAsymp in dfFigure1_B_Asymp.groupby(by=["samplingMonth2"]).vl.agg("median").items():
+        print(f"{month2ToMonths[_idxMonth2]}: {roundHalfUp(vlMedianAsymp)}")
     return
 
 
 @app.cell
 def _(IQRQuartiles, dfFigure1_B_Asymp, month2ToMonths, roundHalfUp):
-    print('Viral load IQRs (Q1, Q3) (asymptomatic)\n')
-    for _idxMonth2, (Q1Asymp, Q3Asymp) in dfFigure1_B_Asymp.groupby(by=['samplingMonth2']).vl.agg(IQRQuartiles).items():
-        print(f'{month2ToMonths[_idxMonth2]}: {(roundHalfUp(Q1Asymp), roundHalfUp(Q3Asymp))}')
+    print("Viral load IQRs (Q1, Q3) (asymptomatic)\n")
+    for _idxMonth2, (Q1Asymp, Q3Asymp) in dfFigure1_B_Asymp.groupby(by=["samplingMonth2"]).vl.agg(IQRQuartiles).items():
+        print(f"{month2ToMonths[_idxMonth2]}: {(roundHalfUp(Q1Asymp), roundHalfUp(Q3Asymp))}")
     return
 
 
@@ -366,10 +358,10 @@ def _(
     fig3A, _ax = plt.subplots(1, 1, figsize=(colWidth * 2, colWidth * 0.8), constrained_layout=True)
     plotFig3_A(dfFigure3, palette=pal, order=order, label=label, xLabels=True, ax=_ax, markersize=2.3)
     annotateWithLetter(_ax, "A", size=ANNOTATION_LETTER_SIZE, coords=ANNOTATION_COORDS)
-    fig3A.text(0.34, 1, 'Symptomatic', ha='center', fontdict={'fontsize': fontSizePlot})
-    fig3A.text(0.79, 1, 'Asymptomatic', ha='center', fontdict={'fontsize': fontSizePlot})
-    saveFigure(fig3A, plotDir / 'Figure2A-vl-thesis.pdf')
-    saveFigure(fig3A, plotDir / 'Figure2A-vl-thesis.png')
+    fig3A.text(0.34, 1, "Symptomatic", ha="center", fontdict={"fontsize": fontSizePlot})
+    fig3A.text(0.79, 1, "Asymptomatic", ha="center", fontdict={"fontsize": fontSizePlot})
+    saveFigure(fig3A, plotDir / "Figure2A-vl-thesis.pdf")
+    saveFigure(fig3A, plotDir / "Figure2A-vl-thesis.png")
     _ax
     return
 
@@ -413,8 +405,8 @@ def _(
     figA2A, _ax = plt.subplots(1, 1, figsize=(colWidth * 2, colWidth * 1), constrained_layout=True)
     plotFigA2_A(dfFigureA2, palette=pal, order=order, label=label, xLabels=True, ax=_ax, markersize=2.3)
     annotateWithLetter(_ax, "B", size=ANNOTATION_LETTER_SIZE, coords=ANNOTATION_COORDS)
-    saveFigure(figA2A, plotDir / 'Figure2B-vl-thesis.pdf')
-    saveFigure(figA2A, plotDir / 'Figure2B-vl-thesis.png')
+    saveFigure(figA2A, plotDir / "Figure2B-vl-thesis.pdf")
+    saveFigure(figA2A, plotDir / "Figure2B-vl-thesis.png")
     _ax
     return
 
@@ -471,11 +463,11 @@ def _(
     plotFig2_B(dfFigure2_B, palette=None, label=label, order=order, abbrvDictPaper=abbrvDictPaper, ax=_ax[0])
     plotFig2_B(dfFigure2_BAsymp, palette=None, label=label, order=order, abbrvDictPaper=abbrvDictPaper, ax=_ax[1])
     # Remove x-label and xticklabels
-    _ax[0].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
-    _ax[0].set_xlabel('')       # Remove x-axis label
+    _ax[0].tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
+    _ax[0].set_xlabel("")       # Remove x-axis label
     annotateWithLetters(_ax, coords=ANNOTATION_COORDS, size=ANNOTATION_LETTER_SIZE)
-    saveFigure(_fig2B,  plotDir / 'Figure3-thesis.pdf')
-    saveFigure(_fig2B, plotDir / 'Figure3-thesis.png')
+    saveFigure(_fig2B,  plotDir / "Figure3-thesis.pdf")
+    saveFigure(_fig2B, plotDir / "Figure3-thesis.png")
     _ax
     return
 
@@ -586,8 +578,8 @@ def _(mo):
 
 @app.cell
 def _(bmb, dfFigure1_B, sampleVl):
-    _priors = {'1|samplingMonth2': bmb.Prior('Normal', mu=0, sigma=bmb.Prior('HalfNormal', sigma=2))}
-    modelVl, iDataVl, statsVl = sampleVl(df=dfFigure1_B, catVars=['samplingMonth2'], likelihood='skewnormal', formula='zVl ~ (1|samplingMonth2)', priors=_priors, target_accept=0.98)
+    _priors = {"1|samplingMonth2": bmb.Prior("Normal", mu=0, sigma=bmb.Prior("HalfNormal", sigma=2))}
+    modelVl, iDataVl, statsVl = sampleVl(df=dfFigure1_B, catVars=["samplingMonth2"], likelihood="skewnormal", formula="zVl ~ (1|samplingMonth2)", priors=_priors, target_accept=0.98)
     return iDataVl, modelVl, statsVl
 
 
@@ -605,14 +597,14 @@ def _(iDataDir, iDataVl):
 
 @app.cell
 def _(az, iDataVl, month2ToMonths, statsVl):
-    print('Difference in log10 viral loads between start of study (Dec 20/Jan 21) and remaining time periods.\n')
-    _vlStd = statsVl['sd']
-    baseline = iDataVl.posterior.sel({'samplingMonth2__factor_dim': '0'})['1|samplingMonth2'].stack(samples=('chain', 'draw')).values.flatten()
+    print("Difference in log10 viral loads between start of study (Dec 20/Jan 21) and remaining time periods.\n")
+    _vlStd = statsVl["sd"]
+    baseline = iDataVl.posterior.sel({"samplingMonth2__factor_dim": "0"})["1|samplingMonth2"].stack(samples=("chain", "draw")).values.flatten()
     for samplingTime, samplingTimeStr in month2ToMonths.items():
         if samplingTime == 3:
             continue
         print(samplingTimeStr)
-        _samples = iDataVl.posterior.sel({'samplingMonth2__factor_dim': f'{int(samplingTime)}'})['1|samplingMonth2'].stack(samples=('chain', 'draw')).values.flatten()
+        _samples = iDataVl.posterior.sel({"samplingMonth2__factor_dim": f"{int(samplingTime)}"})["1|samplingMonth2"].stack(samples=("chain", "draw")).values.flatten()
         samplesDiff = (_samples - baseline) * _vlStd
         samplingTimeDiffMean = samplesDiff.mean()
         samplingTimeDiffHDI = az.hdi(samplesDiff, 0.94)
@@ -630,11 +622,11 @@ def _(mo):
 
 @app.cell
 def _(bmb, dfFigure1_B_Asymp, sampleVl):
-    _priors = {'1|samplingMonth2': bmb.Prior('Normal', mu=0, sigma=bmb.Prior('HalfNormal', sigma=2))}
+    _priors = {"1|samplingMonth2": bmb.Prior("Normal", mu=0, sigma=bmb.Prior("HalfNormal", sigma=2))}
     modelVlAsymp, iDataVlAsymp, statsVlAsymp = sampleVl(df=dfFigure1_B_Asymp, 
-                                                        catVars=['samplingMonth2'], 
-                                                        likelihood='skewnormal', 
-                                                        formula='zVl ~ (1|samplingMonth2)', 
+                                                        catVars=["samplingMonth2"], 
+                                                        likelihood="skewnormal", 
+                                                        formula="zVl ~ (1|samplingMonth2)", 
                                                         priors=_priors, 
                                                         target_accept=0.98)
     return iDataVlAsymp, statsVlAsymp
@@ -648,15 +640,15 @@ def _(iDataDir, iDataVlAsymp):
 
 @app.cell
 def _(az, iDataVlAsymp, month2ToMonths, statsVlAsymp):
-    print('Difference in log10 viral loads between start of study (Dec 20/Jan 21) and remaining time periods.\n')
-    _vlStd = statsVlAsymp['sd']
-    baseline = iDataVlAsymp.posterior.sel({'samplingMonth2__factor_dim': '0'})['1|samplingMonth2'].stack(samples=('chain', 'draw')).values.flatten()
+    print("Difference in log10 viral loads between start of study (Dec 20/Jan 21) and remaining time periods.\n")
+    _vlStd = statsVlAsymp["sd"]
+    baseline = iDataVlAsymp.posterior.sel({"samplingMonth2__factor_dim": "0"})["1|samplingMonth2"].stack(samples=("chain", "draw")).values.flatten()
     for samplingTime, samplingTimeStr in month2ToMonths.items():
         if samplingTime in (3, 4):
             continue
         print(samplingTimeStr)
-        _samples = (iDataVlAsymp.posterior.sel({'samplingMonth2__factor_dim': f'{int(samplingTime)}'})
-                    ['1|samplingMonth2'].stack(samples=('chain', 'draw')).values.flatten())
+        _samples = (iDataVlAsymp.posterior.sel({"samplingMonth2__factor_dim": f"{int(samplingTime)}"})
+                    ["1|samplingMonth2"].stack(samples=("chain", "draw")).values.flatten())
         samplesDiff = (_samples - baseline) * _vlStd
         samplingTimeDiffMean = samplesDiff.mean()
         samplingTimeDiffHDI = az.hdi(samplesDiff, 0.94)
@@ -674,8 +666,8 @@ def _(mo):
 
 @app.cell
 def _(dfFigure1_B, sampleVl):
-    modelVlResult, iDataVlResult, statsVlResult = sampleVl(df=dfFigure1_B, catVars=['agrdt'], likelihood='student-t', 
-                                                           formula='zVl ~ agrdt', target_accept=0.98)
+    modelVlResult, iDataVlResult, statsVlResult = sampleVl(df=dfFigure1_B, catVars=["agrdt"], likelihood="student-t", 
+                                                           formula="zVl ~ agrdt", target_accept=0.98)
     return iDataVlResult, modelVlResult, statsVlResult
 
 
@@ -687,15 +679,15 @@ def _(modelVlResult):
 
 @app.cell
 def _(statsVlResult):
-    statsVlResult['sd']
+    statsVlResult["sd"]
     return
 
 
 @app.cell
 def _(az, iDataVlResult, statsVlResult):
-    print('Difference in log10 viral loads comparing samples with positive and negative Ag-RDT result.\n')
-    _vlStd = statsVlResult['sd']
-    _samples = (iDataVlResult.posterior.sel({'agrdt_dim': '1'})['agrdt'].stack(samples=('chain', 'draw')).values.flatten())
+    print("Difference in log10 viral loads comparing samples with positive and negative Ag-RDT result.\n")
+    _vlStd = statsVlResult["sd"]
+    _samples = (iDataVlResult.posterior.sel({"agrdt_dim": "1"})["agrdt"].stack(samples=("chain", "draw")).values.flatten())
 
     _samples = _samples * _vlStd
     agrdtResultParamMean = _samples.mean()
@@ -708,9 +700,9 @@ def _(az, iDataVlResult, statsVlResult):
 @app.cell
 def _(dfFigure1_B, sampleVl):
     modelVlTestline, iDataVlTestline, statsVlTestline = sampleVl(df=dfFigure1_B, 
-                                                                 catVars=['testline'], 
-                                                                 likelihood='student-t', 
-                                                                 formula='zVl ~ testline', 
+                                                                 catVars=["testline"], 
+                                                                 likelihood="student-t", 
+                                                                 formula="zVl ~ testline", 
                                                                  target_accept=0.98)
     return iDataVlTestline, modelVlTestline, statsVlTestline
 
@@ -723,16 +715,16 @@ def _(modelVlTestline):
 
 @app.cell
 def _(abbrvDictPaper, az, iDataVlTestline, statsVlTestline):
-    print('Difference in log10 viral loads comparing samples with difference Ag-RDT testline strengths.\n')
-    _vlStd = statsVlTestline['sd']
+    print("Difference in log10 viral loads comparing samples with difference Ag-RDT testline strengths.\n")
+    _vlStd = statsVlTestline["sd"]
     for _testline in range(1, 4):
-        _samples = (iDataVlTestline.posterior.sel({'testline_dim': str(_testline)})
-                    ['testline'].stack(samples=('chain', 'draw')).values.flatten())
+        _samples = (iDataVlTestline.posterior.sel({"testline_dim": str(_testline)})
+                    ["testline"].stack(samples=("chain", "draw")).values.flatten())
 
         _samples = _samples * _vlStd
         agrdtTestlineParamMean = _samples.mean()
         agrdtTestlineParamHDI = az.hdi(_samples, 0.94)
-        print(f"Testline strength: {abbrvDictPaper['testline'][_testline]}")
+        print(f"Testline strength: {abbrvDictPaper["testline"][_testline]}")
         print(f"{agrdtTestlineParamMean:.2f} ({agrdtTestlineParamHDI[0]:.2f}, {agrdtTestlineParamHDI[1]:.2f})")
         print()
     return
@@ -763,15 +755,15 @@ def _(mo):
 @app.cell
 def _(abbrvDictPaper, dfAgrdtYNVariant, order):
     for _variant in order.variant:
-        means = dfAgrdtYNVariant[dfAgrdtYNVariant.variant == _variant].groupby('agrdtYN').vl.mean()
-        print(f"Mean log10 viral load for {abbrvDictPaper['variant'][_variant]} samples.\nNo Ag-RDT performed: {means[0]:.2f}, Ag-RDT performed: {means[1]:.2f}\n")
+        means = dfAgrdtYNVariant[dfAgrdtYNVariant.variant == _variant].groupby("agrdtYN").vl.mean()
+        print(f"Mean log10 viral load for {abbrvDictPaper["variant"][_variant]} samples.\nNo Ag-RDT performed: {means[0]:.2f}, Ag-RDT performed: {means[1]:.2f}\n")
     return
 
 
 @app.cell
 def _(SEED, bmb, dfAgrdtYNVariant, sampleVl):
-    _priors = {'variant': bmb.Prior('Normal', mu=0, sigma=2), 'agrdtYN:variant': bmb.Prior('Normal', mu=0, sigma=2)}
-    modelAgrdtYNVl, iDataAgrdtYNVl, statsAgrdtYNVl = sampleVl(dfAgrdtYNVariant, catVars=['agrdtYN', 'variant'], likelihood='skewnormal', target_accept=0.95, priors=_priors, seed=SEED)
+    _priors = {"variant": bmb.Prior("Normal", mu=0, sigma=2), "agrdtYN:variant": bmb.Prior("Normal", mu=0, sigma=2)}
+    modelAgrdtYNVl, iDataAgrdtYNVl, statsAgrdtYNVl = sampleVl(dfAgrdtYNVariant, catVars=["agrdtYN", "variant"], likelihood="skewnormal", target_accept=0.95, priors=_priors, seed=SEED)
     return iDataAgrdtYNVl, modelAgrdtYNVl, statsAgrdtYNVl
 
 
@@ -789,18 +781,18 @@ def _(Path, iDataAgrdtYNVl, iDataDir):
 
 @app.cell
 def _(abbrvDictPaper, az, iDataAgrdtYNVl, order, statsAgrdtYNVl):
-    print('Difference in log10 viral loads when comparing people who were not Ag-RDT tested vs who were.\n')
-    _vlStd = statsAgrdtYNVl['sd']
+    print("Difference in log10 viral loads when comparing people who were not Ag-RDT tested vs who were.\n")
+    _vlStd = statsAgrdtYNVl["sd"]
     for _variant in order.variant:
-        _samples = (iDataAgrdtYNVl.posterior.sel({'agrdtYN:variant_dim': f'1, {_variant}'})
-                    ['agrdtYN:variant'].stack(samples=('chain', 'draw')).values.flatten())
+        _samples = (iDataAgrdtYNVl.posterior.sel({"agrdtYN:variant_dim": f"1, {_variant}"})
+                    ["agrdtYN:variant"].stack(samples=("chain", "draw")).values.flatten())
         _samples = _samples * _vlStd
         agrdtYNParamMean = _samples.mean()
         agrdtYNParamHDI = az.hdi(_samples, 0.94)
-        print(f"{abbrvDictPaper['variant'][_variant]}:")
+        print(f"{abbrvDictPaper["variant"][_variant]}:")
         print(f"{agrdtYNParamMean:.2f} ({agrdtYNParamHDI[0]:.2f}, {agrdtYNParamHDI[1]:.2f})")
-        # print(f"{abbrvDictPaper['variant'][_variant]}: {agrdtYNParamMean:.3f}")
-        # print(f'94% HDI: {agrdtYNParamHDI[0]:.3f}, {agrdtYNParamHDI[1]:.3f}')
+        # print(f"{abbrvDictPaper["variant"][_variant]}: {agrdtYNParamMean:.3f}")
+        # print(f"94% HDI: {agrdtYNParamHDI[0]:.3f}, {agrdtYNParamHDI[1]:.3f}")
         print()
     return
 
@@ -813,8 +805,8 @@ def _(mo):
 
 @app.cell
 def _(SEED, bmb, dfAgrdtYNVariantAsymp, sampleVl):
-    _priors = {'variant': bmb.Prior('Normal', mu=0, sigma=2), 'agrdtYN:variant': bmb.Prior('Normal', mu=0, sigma=2)}
-    modelAgrdtYNVlAsymp, iDataAgrdtYNVlAsymp, statsAgrdtYNVlAsymp = sampleVl(dfAgrdtYNVariantAsymp, catVars=['agrdtYN', 'variant'], likelihood='skewnormal', target_accept=0.95, priors=_priors, seed=SEED)
+    _priors = {"variant": bmb.Prior("Normal", mu=0, sigma=2), "agrdtYN:variant": bmb.Prior("Normal", mu=0, sigma=2)}
+    modelAgrdtYNVlAsymp, iDataAgrdtYNVlAsymp, statsAgrdtYNVlAsymp = sampleVl(dfAgrdtYNVariantAsymp, catVars=["agrdtYN", "variant"], likelihood="skewnormal", target_accept=0.95, priors=_priors, seed=SEED)
     return iDataAgrdtYNVlAsymp, modelAgrdtYNVlAsymp, statsAgrdtYNVlAsymp
 
 
@@ -832,15 +824,15 @@ def _(Path, iDataAgrdtYNVlAsymp, iDataDir):
 
 @app.cell
 def _(abbrvDictPaper, az, iDataAgrdtYNVlAsymp, order, statsAgrdtYNVlAsymp):
-    print('Difference in log10 viral loads when comparing people who were not Ag-RDT tested vs who were (asymptomatic infections).\n')
-    _vlStd = statsAgrdtYNVlAsymp['sd']
+    print("Difference in log10 viral loads when comparing people who were not Ag-RDT tested vs who were (asymptomatic infections).\n")
+    _vlStd = statsAgrdtYNVlAsymp["sd"]
     for _variant in order.variant:
-        _samples = (iDataAgrdtYNVlAsymp.posterior.sel({'agrdtYN:variant_dim': f'1, {_variant}'})
-                    ['agrdtYN:variant'].stack(samples=('chain', 'draw')).values.flatten())
+        _samples = (iDataAgrdtYNVlAsymp.posterior.sel({"agrdtYN:variant_dim": f"1, {_variant}"})
+                    ["agrdtYN:variant"].stack(samples=("chain", "draw")).values.flatten())
         _samples = _samples * _vlStd
         _agrdtYNParamMean = _samples.mean()
         _agrdtYNParamHDI = az.hdi(_samples, 0.94)
-        print(f"{abbrvDictPaper['variant'][_variant]}:")
+        print(f"{abbrvDictPaper["variant"][_variant]}:")
         print(f"{_agrdtYNParamMean:.2f} ({_agrdtYNParamHDI[0]:.2f}, {_agrdtYNParamHDI[1]:.2f})")
         print()
     return
@@ -854,8 +846,8 @@ def _(mo):
 
 @app.cell
 def _(SEED, bmb, dfFigure3, sampleVl):
-    _priors = {'symptoms': bmb.Prior('Normal', mu=0, sigma=2), 'immun2YN:symptoms': bmb.Prior('Normal', mu=0, sigma=2)}
-    modelImmunVlSkewed, iDataImmunVlSkewed, statsImmunVlSkewed = sampleVl(df=dfFigure3, catVars=['immun2YN', 'symptoms'], likelihood='skewnormal', priors=_priors, target_accept=0.95, seed=SEED, interaction=True)
+    _priors = {"symptoms": bmb.Prior("Normal", mu=0, sigma=2), "immun2YN:symptoms": bmb.Prior("Normal", mu=0, sigma=2)}
+    modelImmunVlSkewed, iDataImmunVlSkewed, statsImmunVlSkewed = sampleVl(df=dfFigure3, catVars=["immun2YN", "symptoms"], likelihood="skewnormal", priors=_priors, target_accept=0.95, seed=SEED, interaction=True)
     return iDataImmunVlSkewed, modelImmunVlSkewed, statsImmunVlSkewed
 
 
@@ -873,20 +865,20 @@ def _(iDataDir, iDataImmunVlSkewed):
 
 @app.cell
 def _(abbrvDictPaper, az, iDataImmunVlSkewed, np, order, statsImmunVlSkewed):
-    print('Mean log10 viral loads according to immunization status, depending on whether people had symptoms.\n')
-    _vlStd = statsImmunVlSkewed['sd']
-    _vlMean = statsImmunVlSkewed['mean']
-    _zVl_sigma = iDataImmunVlSkewed.posterior['sigma'].stack(samples=('chain', 'draw')).values.flatten()
-    _zVl_alpha = iDataImmunVlSkewed.posterior['alpha'].stack(samples=('chain', 'draw')).values.flatten()
+    print("Mean log10 viral loads according to immunization status, depending on whether people had symptoms.\n")
+    _vlStd = statsImmunVlSkewed["sd"]
+    _vlMean = statsImmunVlSkewed["mean"]
+    _zVl_sigma = iDataImmunVlSkewed.posterior["sigma"].stack(samples=("chain", "draw")).values.flatten()
+    _zVl_alpha = iDataImmunVlSkewed.posterior["alpha"].stack(samples=("chain", "draw")).values.flatten()
     _commonTermMean = _zVl_sigma * np.sqrt(2 / np.pi) * (_zVl_alpha / np.sqrt(1 + np.power(_zVl_alpha, 2)))
-    _intercept = iDataImmunVlSkewed.posterior['Intercept'].stack(samples=('chain', 'draw')).values.flatten()
-    _betaSymptoms = iDataImmunVlSkewed.posterior['symptoms'].stack(samples=('chain', 'draw')).values.flatten()
+    _intercept = iDataImmunVlSkewed.posterior["Intercept"].stack(samples=("chain", "draw")).values.flatten()
+    _betaSymptoms = iDataImmunVlSkewed.posterior["symptoms"].stack(samples=("chain", "draw")).values.flatten()
     for _symptomStatus in order.symp:
         for immunized in (0, 1):
-            print(f"{abbrvDictPaper['symptoms'][_symptomStatus]}, immunized: {abbrvDictPaper['immun2YN'][immunized]}")
+            print(f"{abbrvDictPaper["symptoms"][_symptomStatus]}, immunized: {abbrvDictPaper["immun2YN"][immunized]}")
             if immunized:
-                _samples = (iDataImmunVlSkewed.posterior.sel({'immun2YN:symptoms_dim': f'1, {_symptomStatus}'})
-                            ['immun2YN:symptoms'].stack(samples=('chain', 'draw')).values)
+                _samples = (iDataImmunVlSkewed.posterior.sel({"immun2YN:symptoms_dim": f"1, {_symptomStatus}"})
+                            ["immun2YN:symptoms"].stack(samples=("chain", "draw")).values)
             else:
                 _samples = 0
             _samples = (_intercept + _betaSymptoms * _symptomStatus + _samples + _commonTermMean) * _vlStd + _vlMean
@@ -899,15 +891,15 @@ def _(abbrvDictPaper, az, iDataImmunVlSkewed, np, order, statsImmunVlSkewed):
 
 @app.cell
 def _(az, iDataImmunVlSkewed, statsImmunVlSkewed):
-    print('Difference in log10 viral loads, depending on whether people had symptoms.\n')
-    _vlStd = statsImmunVlSkewed['sd']
+    print("Difference in log10 viral loads, depending on whether people had symptoms.\n")
+    _vlStd = statsImmunVlSkewed["sd"]
     for _symptomStatus in (0, 1):
-        _samples = (iDataImmunVlSkewed.posterior.sel({'immun2YN:symptoms_dim': f'1, {_symptomStatus}'})
-                    ['immun2YN:symptoms'].stack(samples=('chain', 'draw')).values)
+        _samples = (iDataImmunVlSkewed.posterior.sel({"immun2YN:symptoms_dim": f"1, {_symptomStatus}"})
+                    ["immun2YN:symptoms"].stack(samples=("chain", "draw")).values)
         _samples = _samples * _vlStd
         _immun2YNParamMean = _samples.mean()
         _immun2YNParamHDI = az.hdi(_samples, 0.94)
-        sympString = 'Symptomatic' if _symptomStatus else 'Asymptomatic'
+        sympString = "Symptomatic" if _symptomStatus else "Asymptomatic"
         print(sympString)
         print(f"{_immun2YNParamMean:.2f} ({_immun2YNParamHDI[0]:.2f}, {_immun2YNParamHDI[1]:.2f})")
         print()
@@ -922,12 +914,12 @@ def _(mo):
 
 @app.cell
 def _(SEED, bmb, dfFigureA2, order, pd, sampleVl):
-    dfVariantVl = dfFigureA2.dropna(subset=['variant']).copy()
-    _priors = {'symptoms': bmb.Prior('Normal', mu=0, sigma=2), 'variantCode:symptoms': bmb.Prior('Normal', mu=0, sigma=2)}
-    dfVariantVl['variantCode'] = pd.Categorical(dfVariantVl.variant, categories=order.variant).codes
-    modelVariantVlSkewed, iDataVariantVlSkewed, statsVariantVlSkewed = sampleVl(df=dfVariantVl, catVars=['variantCode', 
-                                                                                                         'symptoms'],
-                                                                                likelihood='skewnormal', target_accept=0.95,
+    dfVariantVl = dfFigureA2.dropna(subset=["variant"]).copy()
+    _priors = {"symptoms": bmb.Prior("Normal", mu=0, sigma=2), "variantCode:symptoms": bmb.Prior("Normal", mu=0, sigma=2)}
+    dfVariantVl["variantCode"] = pd.Categorical(dfVariantVl.variant, categories=order.variant).codes
+    modelVariantVlSkewed, iDataVariantVlSkewed, statsVariantVlSkewed = sampleVl(df=dfVariantVl, catVars=["variantCode", 
+                                                                                                         "symptoms"],
+                                                                                likelihood="skewnormal", target_accept=0.95,
                                                                                 priors=_priors, seed=SEED)
     return iDataVariantVlSkewed, modelVariantVlSkewed, statsVariantVlSkewed
 
@@ -946,17 +938,17 @@ def _(iDataDir, iDataVariantVlSkewed):
 
 @app.cell
 def _(abbrvDictPaper, az, iDataVariantVlSkewed, order, statsVariantVlSkewed):
-    print('Difference in log10 viral loads (with wildtype being the baseline), depending on whether people had symptoms.\n')
-    _vlStd = statsVariantVlSkewed['sd']
+    print("Difference in log10 viral loads (with wildtype being the baseline), depending on whether people had symptoms.\n")
+    _vlStd = statsVariantVlSkewed["sd"]
     for _variantCode, _variantStr in zip(range(1, 4), order.variant[1:]):
         for _symptomStatus in order.symp:
-            print(abbrvDictPaper['symptoms'][_symptomStatus])
-            _samples = (iDataVariantVlSkewed.posterior.sel({'variantCode:symptoms_dim': f'{_variantCode}, {_symptomStatus}'})
-                        ['variantCode:symptoms'].stack(samples=('chain', 'draw')).values.flatten())
+            print(abbrvDictPaper["symptoms"][_symptomStatus])
+            _samples = (iDataVariantVlSkewed.posterior.sel({"variantCode:symptoms_dim": f"{_variantCode}, {_symptomStatus}"})
+                        ["variantCode:symptoms"].stack(samples=("chain", "draw")).values.flatten())
             _samples = _samples * _vlStd
             _variantParamMean = _samples.mean()
             _variantParamHDI = az.hdi(_samples, 0.94)
-            print(f"{abbrvDictPaper['variant'][_variantStr]}:")
+            print(f"{abbrvDictPaper["variant"][_variantStr]}:")
             print(f"{_variantParamMean:.2f} ({_variantParamHDI[0]:.2f}, {_variantParamHDI[1]:.2f})")
             print()
         print()

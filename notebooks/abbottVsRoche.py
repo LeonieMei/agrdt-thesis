@@ -32,7 +32,6 @@ def _():
 
     setCustomTheme()
     return (
-        CM,
         COL_WIDTH,
         ROOT_DIR,
         SEED,
@@ -102,8 +101,7 @@ def _(label, sns):
 
 
 @app.cell
-def _(CM, COL_WIDTH):
-    cm = CM
+def _(COL_WIDTH):
     colWidth = COL_WIDTH
     colWidthAppendix = COL_WIDTH
     fontSizePlot = 12
@@ -376,13 +374,6 @@ def _(dtype, n, nCats, nVl, np, pd, zVl):
     newData = pd.DataFrame({
         "variant": np.repeat([0, 1], nVl),
         "test": np.zeros(n, dtype=dtype),
-        "zVl": np.tile(zVl, nCats),
-    })
-
-    # Displaying difference for rapid test:
-    newData2 = pd.DataFrame({
-        "variant": np.ones(n, dtype=dtype),
-        "test": np.repeat([0, 1], nVl),
         "zVl": np.tile(zVl, nCats),
     })
     return (newData,)

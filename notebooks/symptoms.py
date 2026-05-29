@@ -121,7 +121,6 @@ def _(
     pd,
 ):
     dfSympDatSymp = dataFrameSymptomsData(df)
-    dfSympDatSympPos = dataFramePCRpos(dfSympDatSymp)
     dfSympDatSympInd = dataFrameIndependentSymptomsSymptomsData(df)
     dfSympDatSympIndPos = dataFramePCRpos(dfSympDatSympInd)
     dfSympDatSympIndPos["ageBin"] = pd.cut(dfSympDatSympIndPos.age, bins=[17, 30, 50, 70], include_lowest=True)
@@ -192,7 +191,6 @@ def _(
 
 
     axes = list(axesOrig1.flatten()) + list(axesOrig2.flatten())
-    lastIdx = len(variants) - 1
     cbar = True
     letters = ("A", "B", "C", "D")
 
@@ -259,16 +257,17 @@ def _(SYMPTOMS, dfSympDatSympIndPos, jaccSimVariants, variants):
             symptomPercentageNew = dfCurrVariant[symptomNew].mean()
             if abs(symptomPercentageNew - symptomPercentageMax) < 0.01:
                 mostCommonSymptoms.append(symptomNew)
-        print(f"Most common symptoms:")
+        print("Most common symptoms:")
         for mostCommonSymptom in mostCommonSymptoms:
             print(f"{mostCommonSymptom} ({dfCurrVariant[mostCommonSymptom].mean()})")
         print()
         seen = set()
         for symptom1 in corrVariant.index:
             for symptom2 in corrVariant.columns:
-                if symptom1 == symptom2: continue
+                if symptom1 == symptom2:
+                    continue
                 symptomTupleSorted = tuple(sorted((symptom1, symptom2)))
-                if (corrVariant.loc[symptom1, symptom2] > 0.5) and not symptomTupleSorted in seen:
+                if (corrVariant.loc[symptom1, symptom2] > 0.5) and symptomTupleSorted not in seen:
                     print(f"{symptomTupleSorted[0]}, {symptomTupleSorted[1]}: {corrVariant.loc[symptomTupleSorted[0], 
                     symptomTupleSorted[1]]}")
                     seen.add(symptomTupleSorted)
@@ -609,7 +608,6 @@ def _(
 
     means = {}
     meanIntervals = {}
-    yIntervals = {}
 
     days = np.linspace(0, 10, num=100)
 

@@ -256,10 +256,10 @@ def generateTableStringsEmployees(df, colFuncsDict, latex=False):
         header = (
             "Employee tests",
             "",
-            f"Symptoms",
-            f"No symptoms",
-            f"Unknown symptom status",
-            f"Total",
+            "Symptoms",
+            "No symptoms",
+            "Unknown symptom status",
+            "Total",
         )
     tableStrings["header"] = header
     tableStrings["content"] = []
@@ -398,7 +398,9 @@ def writeTableSymptoms(df, colFuncsDictSymptoms, outfile):
     """
     summaryDict = dict(df[df.symptoms2 == "Symptomatic"].agg(colFuncsDictSymptoms))
 
-    sortingFunc = lambda x: summaryDict[x]["mean"]
+    def sortingFunc(x):
+        return summaryDict[x]["mean"]
+
     symptomsSorted = sorted(summaryDict, key=sortingFunc, reverse=True)
     sortedDict = {key: colFuncsDictSymptoms[key] for key in symptomsSorted}
 
@@ -442,7 +444,7 @@ def generateTableStringsSymptoms2(
     colFuncsDictSymptoms = {
         feature: stats
         for feature, stats in colFuncsDict.items()
-        if not "Days" in feature
+        if "Days" not in feature
     }
 
     tableStrings = {"content": []}
@@ -462,11 +464,14 @@ def generateTableStringsSymptoms2(
         else ["", "Count", "Percentage", "Count", "Percentage"]
     )
     tableStrings["header"] = header
-    sortingFunc = lambda x: summaryDictPos[x]["mean"]
+
+    def sortingFunc(x):
+        return summaryDictPos[x]["mean"]
+
     symptomsSorted = [
         key
         for key in sorted(summaryDictPos, key=sortingFunc, reverse=True)
-        if not "Days" in key
+        if "Days" not in key
     ]
     sortedDict = {key: colFuncsDictSymptoms[key] for key in symptomsSorted}
     for feature, stats in sortedDict.items():

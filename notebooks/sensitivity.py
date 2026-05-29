@@ -73,40 +73,29 @@ def _(mo):
 @app.cell
 def _(
     getLabels,
-    getLegends,
     getOrders,
     getPalettes,
-    returnIDataDirSensitivity,
     returnPlotDirSensitivity,
 ):
     pal = getPalettes()
-    legend = getLegends()
     order = getOrders()
     label = getLabels()
     plotDir = returnPlotDirSensitivity()
-    iDataDir = returnIDataDirSensitivity()
     return label, order, pal, plotDir
 
 
 @app.cell
 def _(getAbbrvsDict):
     abbrvDictPaper = getAbbrvsDict()
-
-    genderAbbrvs = abbrvDictPaper["gender"]
-    symptomAbbrvs = abbrvDictPaper["symptoms"]
     variantAbbrvs = abbrvDictPaper["variant"]
-    immunAbbrvs = abbrvDictPaper["immun2YN"]
-    daysAbbrvs = abbrvDictPaper["binDaysPostOnset"]
-    variants = list(variantAbbrvs.keys())
+
     return abbrvDictPaper, variantAbbrvs
 
 
 @app.cell
-def _(CM, COL_WIDTH):
-    cm = CM
+def _(COL_WIDTH):
     colWidth = COL_WIDTH
     fontSizePlot = 12
-    fontSizePlotSuppl = 10
     return colWidth, fontSizePlot
 
 
@@ -472,9 +461,9 @@ def _(roundHalfUp, statsDictVariant):
 @app.cell
 def _(az, mapRoundHalfUp, np, statsDictVariant, variantAbbrvs):
     for _variant, _variantLabel in variantAbbrvs.items():
-        _diffVariantAsymp = (statsDictVariant["variant:symptoms"][f"wildtype, 0"]["samples"] - 
+        _diffVariantAsymp = (statsDictVariant["variant:symptoms"]["wildtype, 0"]["samples"] -
                              statsDictVariant["variant:symptoms"][f"{_variant}, 0"]["samples"])
-        _diffVariantSymp = (statsDictVariant["variant:symptoms"][f"wildtype, 1"]["samples"] - 
+        _diffVariantSymp = (statsDictVariant["variant:symptoms"]["wildtype, 1"]["samples"] -
                             statsDictVariant["variant:symptoms"][f"{_variant}, 1"]["samples"])
         _variantAsympMean = np.mean(_diffVariantAsymp)
         _variantAsympHdi = az.hdi(_diffVariantAsymp, 0.94)

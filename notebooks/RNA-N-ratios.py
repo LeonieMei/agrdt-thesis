@@ -108,7 +108,6 @@ def _(mo):
 
 @app.cell
 def _(
-    CM,
     COL_WIDTH,
     getLabels,
     getLegends,
@@ -116,10 +115,7 @@ def _(
     returnPlotDirNRNA,
     returnTableDirIData,
 ):
-    cm = CM
     colWidth = COL_WIDTH
-    fontSizePlot = 12
-    fontSizePlotSuppl = 10
     plotDir = returnPlotDirNRNA()
     iDataDir = returnIDataDirNprotein()
     tableDirIData = returnTableDirIData()
@@ -149,11 +145,6 @@ def _(dataFile, mergeDataFrames, np, pd, standardizeValues):
     df["recovered"] = df["Infection number"] > 1
     # Adjust viral load because 1:5 dilutions (1/6th of original concentration) were used for Elecsys assay 
     df["vlAdj"] = df["vl"] + np.log10(1/6)
-
-    # Only first infections
-    dfFirst = df[df["Infection number"]==1].copy()
-    # Only second and third infections
-    dfSecondThird = df[df["Infection number"].isin((2, 3))].copy()
 
     # Remove data points with log10 load <= 3 and log10 coi < 0
     dfHigh = df[(df.vl > 3) & (df.log10Coi >= 0)].copy()
@@ -355,7 +346,7 @@ def _(model1):
 
 @app.cell
 def _(Path, SEED, az, iDataDir, model1):
-    iData1File = Path(iDataDir, f"modelNposVlAdj.nc")
+    iData1File = Path(iDataDir, "modelNposVlAdj.nc")
     if iData1File.exists():
         iData1 = az.from_netcdf(iData1File)
     else:
@@ -383,7 +374,7 @@ def _(az, colWidth, iData1, labels, plotDir, plt, saveFigure, setFontSize):
 def _(az, iData1, tableDirIData, writeIDataSummaryTableLatex):
     dfSummary1 = az.summary(iData1)
     varnames1 = ["1|day", "recovered", "zVlAdj"]
-    writeIDataSummaryTableLatex(summaryDf=dfSummary1, varnames=varnames1, outfile=tableDirIData / f'iDataSummaryNRNALogisticLatex.txt', model_no=None)
+    writeIDataSummaryTableLatex(summaryDf=dfSummary1, varnames=varnames1, outfile=tableDirIData / "iDataSummaryNRNALogisticLatex.txt", model_no=None)
     return
 
 
@@ -439,9 +430,8 @@ def _(bmb, df, np):
                "1|day": bmb.Prior("Normal", mu=0, sigma=bmb.Prior("HalfNormal", sigma=0.5)),
                "1|ID": bmb.Prior("Normal", mu=0, sigma=bmb.Prior("HalfNormal", sigma=1)),
                "vl|ID": bmb.Prior("Lognormal", mu=1, sigma=bmb.Prior("HalfNormal", sigma=1)),}
-    censoring = "left"
-    model2 = bmb.Model(formula = f"censored(log10Coi, censoredLog10Coi) ~ vlAdj + recovered + (1|ID)", data=df2, categorical=["day", "recovered"], priors=_priors, family="t")
-    model2_2 = bmb.Model(formula = f"censored(log10Coi, censoredLog10Coi) ~ vlAdj + recovered + (1|ID) + (1|day)", data=df2, categorical=["day", "recovered"], priors=_priors, family="t")
+    model2 = bmb.Model(formula = "censored(log10Coi, censoredLog10Coi) ~ vlAdj + recovered + (1|ID)", data=df2, categorical=["day", "recovered"], priors=_priors, family="t")
+    model2_2 = bmb.Model(formula = "censored(log10Coi, censoredLog10Coi) ~ vlAdj + recovered + (1|ID) + (1|day)", data=df2, categorical=["day", "recovered"], priors=_priors, family="t")
     return df2, model2, model2_2
 
 
@@ -453,7 +443,7 @@ def _(model2_2):
 
 @app.cell
 def _(Path, SEED, az, iDataDir, model2):
-    iData2File = Path(iDataDir, f"modelNprotein1VlAdj.nc")
+    iData2File = Path(iDataDir, "modelNprotein1VlAdj.nc")
     if iData2File.exists():
         iData2 = az.from_netcdf(iData2File)
     else:
@@ -465,12 +455,12 @@ def _(Path, SEED, az, iDataDir, model2):
 
 @app.cell
 def _(Path, SEED, az, iDataDir, model2_2):
-    iData2_2File = Path(iDataDir, f"modelNprotein2VlAdj.nc")
+    iData2_2File = Path(iDataDir, "modelNprotein2VlAdj.nc")
     if iData2_2File.exists():
         iData2_2 = az.from_netcdf(iData2_2File)
     else:
         iData2_2 = model2_2.fit(target_accept=0.95, random_seed=SEED,
-                                idata_kwargs={'log_likelihood': True})
+                                idata_kwargs={"log_likelihood": True})
         iData2_2.to_netcdf(iData2_2File)
     return (iData2_2,)
 
@@ -485,7 +475,7 @@ def _(az, iData2_2):
 def _(dfSummary2, tableDirIData, writeIDataSummaryTableLatex):
     # Write Latex summary table
     varnames2 = ["1|day", "recovered", "vlAdj"]
-    writeIDataSummaryTableLatex(summaryDf=dfSummary2, varnames=varnames2, outfile=tableDirIData / f'iDataSummaryNRNALinearLatex.txt', model_no=None)
+    writeIDataSummaryTableLatex(summaryDf=dfSummary2, varnames=varnames2, outfile=tableDirIData / "iDataSummaryNRNALinearLatex.txt", model_no=None)
     return
 
 
