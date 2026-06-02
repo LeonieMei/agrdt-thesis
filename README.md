@@ -2,8 +2,7 @@
 
 This repository contains code for analyzing antigen rapid diagnostic test (Ag-RDT) data
 from Charité employees. The results are presented in my PhD thesis titled *Temporal analysis of SARS-CoV-2 
-rapid antigen test and PCR data*. The code was written and executed by me.
-The data were collected under the supervision of and provided by J. Horn and J. Seybold (Charité Berlin). The raw data are not 
+rapid antigen test and PCR data*. The data were collected under the supervision of and provided by J. Horn and J. Seybold (Charité Berlin). The raw data are not 
 included but a description is provided. The main findings of the project were published in
 [SARS-CoV-2 rapid antigen test sensitivity and viral load in newly symptomatic 
 hospital employees, December 2020 to February 2022 - an observational study](https://www.thelancet.com/journals/lanmic/article/PIIS2666-5247(23)00412-3/fulltext).
